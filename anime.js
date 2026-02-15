@@ -1,50 +1,38 @@
-const animeList = [
-  {
-    title: "Attack on Titan",
-    mood: ["Hype", "Dark"],
-    energy: "High",
-    description: "Humanity fights for survival against giant Titans.",
-    image: "image/aot.jpg"   // make sure path is correct
-  },
-  {
-    title: "Your Name",
-    mood: ["Romantic"],
-    energy: "Medium",
-    description: "Two strangers mysteriously swap bodies across time.",
-    image: "image/your name.jpg"
-  },
-  {
-    title: "A Silent Voice",
-    mood: ["Sad"],
-    energy: "Low",
-    description: "A story of redemption and forgiveness.",
-    image: "image/A_Silent_Voice_.jpg"
-  }
-];
-
-function findAnime() {
+async function findAnime() {
   const mood = document.getElementById("mood").value;
-  const energy = document.getElementById("energy").value;
   const resultDiv = document.getElementById("result");
 
-  const filtered = animeList.filter(anime =>
-    anime.mood.includes(mood) &&
-    anime.energy === energy
-  );
+  resultDiv.innerHTML = '<div class="loader"></div>';
 
-  if (filtered.length === 0) {
-    resultDiv.innerHTML = "No anime found 😢";
-    return;
+  let genre = "";
+
+  // Mood → Genre mapping
+  if (mood === "Hype") genre = "1";       // Action
+  if (mood === "Sad") genre = "8";        // Drama
+  if (mood === "Romantic") genre = "22";  // Romance
+  if (mood === "Dark") genre = "41";      // Suspense
+  if (mood === "Relaxing") genre = "36";  // Slice of Life
+
+  try {
+    const response = await fetch(
+      `https://api.jikan.moe/v4/anime?genres=${genre}&limit=12`
+    );
+
+    const data = await response.json();
+
+    const randomAnime =
+      data.data[Math.floor(Math.random() * data.data.length)];
+
+    resultDiv.innerHTML = `
+      <div class="anime-card">
+        <img src="${randomAnime.images.jpg.image_url}">
+        <h3>${randomAnime.title}</h3>
+        <p>${randomAnime.synopsis?.substring(0,180) || "No description available"}...</p>
+        <p>⭐ Score: ${randomAnime.score || "N/A"}</p>
+      </div>
+    `;
+  } catch (error) {
+    resultDiv.innerHTML = "Error loading anime 😢 Try again.";
+    console.error(error);
   }
-
-  const randomAnime =
-    filtered[Math.floor(Math.random() * filtered.length)];
-
-  resultDiv.innerHTML = `
-    <div class="anime-card">
-      <img src="${randomAnime.image}" alt="anime">
-      <h3>${randomAnime.title}</h3>
-      <p>${randomAnime.description}</p>
-    </div>
-  `;
 }
