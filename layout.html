@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Anime Mood Finder 🎌</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  
+  <nav>
+    <div class="logo">🎌 AnimeFinder</div>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#finder">Finder</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+  </nav>
+
+  
+  <section class="hero">
+    <h1>Find Anime Based On Your Mood 🎭</h1>
+    <p>Select your mood and energy level</p>
+  </section>
+
+
+  <section id="finder" class="finder">
+    <h2>🎯 Mood Selector</h2>
+
+    <select id="mood">
+      <option value="Hype">🔥 Hype</option>
+      <option value="Sad">😭 Sad</option>
+      <option value="Relaxing">😌 Relaxing</option>
+      <option value="Romantic">❤️ Romantic</option>
+      <option value="Dark">🧠 Dark</option>
+    </select>
+
+    <select id="energy">
+      <option value="High">High Energy</option>
+      <option value="Medium">Medium Energy</option>
+      <option value="Low">Low Energy</option>
+    </select>
+
+    <button onclick="findAnime()">Find My Anime</button>
+
+    <div id="result"></div>
+  </section>
+  <script src="anime.js"></script>
+</body>
+</html> 
